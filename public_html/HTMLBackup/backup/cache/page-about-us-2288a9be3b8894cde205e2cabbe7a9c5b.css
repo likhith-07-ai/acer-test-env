@@ -1,0 +1,1 @@
+.headerScrolled .group-headerScrolled{transition-property:all; transition-timing-function:cubic-bezier(0.4,0,0.2,1); transition-duration:150ms;}@media (min-width:1280px){.group-headerScrolled{}}@media (min-width:1024px){.leadershipSwiper .swiper-slide-active + .swiper-slide{position:relative; top:5rem;}}.swiper-pagination-bullet-active{background-color:var(--primary-500);}

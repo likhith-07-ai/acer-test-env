@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Primary Color Palette */
+        --primary-50: #eef8f5;
+        --primary-100: #ddf0eb;
+        --primary-200: #bbe2d7;
+        --primary-300: #98d3c4;
+        --primary-400: #76c5b0;
+        --primary-500: #54b69c;
+        --primary-600: #43927d;
+        --primary-700: #326d5e;
+        --primary-800: #22493e;
+        --primary-900: #11241f;
+        --primary-950: #081210;
+
+        /* Secondary Color Palette */
+        --secondary-50: #ebf7f6;
+        --secondary-100: #d8efee;
+        --secondary-200: #b0dfdd;
+        --secondary-300: #89cfcb;
+        --secondary-400: #61bfba;
+        --secondary-500: #3aafa9;
+        --secondary-600: #2e8c87;
+        --secondary-700: #236965;
+        --secondary-800: #174644;
+        --secondary-900: #0c2322;
+        --secondary-950: #061111;
+
+        /* Tertiary Color Palette */
+        --tertiary-50: #f1f9f9;
+        --tertiary-100: #e4f4f3;
+        --tertiary-200: #c8e8e7;
+        --tertiary-300: #addddc;
+        --tertiary-400: #91d1d0;
+        --tertiary-500: #76c6c4;
+        --tertiary-600: #5e9e9d;
+        --tertiary-700: #477776;
+        --tertiary-800: #2f4f4e;
+        --tertiary-900: #182827;
+        --tertiary-950: #0c1414;
+
+        /* Quaternary Color Palette */
+        --quaternary-50: #e9e9e9;
+        --quaternary-100: #d2d2d2;
+        --quaternary-200: #a6a6a6;
+        --quaternary-300: #797979;
+        --quaternary-400: #4d4d4d;
+        --quaternary-500: #202020;
+        --quaternary-600: #1a1a1a;
+        --quaternary-700: #131313;
+        --quaternary-800: #0d0d0d;
+        --quaternary-900: #060606;
+        --quaternary-950: #030303;
+
+        /* Quinary Color Palette */
+        --quinary-50: #f0f0f0;
+        --quinary-100: #e0e0e0;
+        --quinary-200: #c2c2c2;
+        --quinary-300: #a3a3a3;
+        --quinary-400: #858585;
+        --quinary-500: #666666;
+        --quinary-600: #525252;
+        --quinary-700: oklch(36.002% 0.00004 271.152);
+        --quinary-800: #292929;
+        --quinary-900: #141414;
+        --quinary-950: #0a0a0a;
+    }
+
+    body {
+        font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* Windows-specific font size adjustments */
+    @media (resolution: 1dppx) {
+        html.windows {
+            font-size: 14px;
+        }
+    }
+
+    @media (resolution: 1.25dppx) {
+        html.windows {
+            font-size: 12px;
+        }
+    }
+}
+
+@layer components {
+
+    /* CMS Container - Custom responsive container */
+    .cmsContainer {
+        margin: 0 auto;
+        padding: 0 1rem;
+        max-width: 1280px;
+    }
+
+    /* Below 1280px - Full width with padding */
+    @media (max-width: 1279px) {
+        .cmsContainer {
+            max-width: 100%;
+        }
+
+        /* Windows 125% scaling */
+        @media (resolution: 1.25dppx) {
+            html.windows .cmsContainer {
+                max-width: 80%;
+            }
+        }
+    }
+
+    /* Windows 100% scaling (1dppx) */
+    @media (resolution: 1dppx) {
+        html.windows .cmsContainer {
+            max-width: 1160px;
+        }
+    }
+
+    /* Windows 125% scaling (1.25dppx) */
+    @media (resolution: 1.25dppx) {
+        html.windows .cmsContainer {
+            max-width: 1000px;
+        }
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}

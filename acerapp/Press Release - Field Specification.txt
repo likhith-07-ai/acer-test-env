@@ -1,0 +1,650 @@
+﻿Press Release|Dynamic Form Field Specification|
+Purpose: This document defines every field in the Press Release entry form. All sections marked [STATIC] are hardcoded in the HTML output. All sections marked [DYNAMIC] are filled in by the user through the form interface. The final output is a rendered HTML press release that matches the CRISIL format.
+________________
+
+
+1. HEADER SECTION
+#
+	Field Name
+	Field Type
+	Placeholder / Default
+	Notes
+	1.1
+	date
+	Date Picker
+	Today's date
+	Renders as "DD Month YYYY" format in the output
+	1.2
+	city
+	Text Input (short)
+	e.g. Mumbai
+	Shown beside the date, e.g. "January 29, 2026 | Mumbai"
+	1.3
+	company_name
+	Text Input
+	e.g. Tata Projects Limited
+	Displayed as H1 title below date
+	1.4
+	headline_summary
+	Text Area (1–2 lines)
+	e.g. 'ACER AA / Stable' assigned to Non Convertible Debentures
+	Rendered in italics below company name
+	________________
+
+
+2. RATING ACTION TABLE [DYNAMIC ROWS]
+Table headers are STATIC. Users add rows dynamically by clicking "+ Add Row".
+Static Column Headers (hardcoded):
+Column
+	Label
+	A
+	Instrument / Facility
+	B
+	Amount (INR Crore)
+	C
+	Current Ratings
+	D
+	Rating Action
+	E
+	Regulator
+	Each Row Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	2.1
+	instrument_name
+	Text Input
+	e.g. Rs.500 Crore Non Convertible Debentures
+	Full name of instrument
+	2.2
+	amount_inr
+	Number Input
+	e.g. 500
+	In INR Crore
+	2.3
+	current_rating
+	Text Input
+	e.g. ACER AA/Stable
+	Rating symbol with outlook
+	2.4
+	rating_action
+	Dropdown
+	Options: Assigned, Reaffirmed, Upgraded, Downgraded, Watch Positive, Watch Negative
+	Shown in parentheses after rating
+	2.5
+	regulator
+	Text Input
+	e.g. SEBI, RBI, NHB
+	Optional; shown in last column
+	Controls: [+ Add Row] button to append a new row. Each row has a [✕ Delete] icon.
+Static Footer Notes (hardcoded text below table):
+* Details of Facilities/Instruments are in Annexure 2
+* Facility-wise lender details are at Annexure 3
+* List of facilities corresponding to respective FSR are in Annexure 5
+________________
+
+
+Unsupported rating – Text Input -  e.g. ACER AAA
+Static Footer Notes 
+* in case of credit enhanced ratings
+
+
+
+
+3. ANALYTICAL APPROACH SECTION
+The entire Analytical Approach table is hardcoded in the HTML template. It is not editable in the form.
+________________
+4. BRIEF SUMMARY (DETAILED RATIONALE)
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	4.1
+	rationale_body
+	Rich Text Editor
+	Full multi-paragraph text
+	Main narrative body. Supports bold, italic, bullet points, and hyperlinks. Typically 3–6 paragraphs covering: business profile, credit metrics, parent support, key monitorables.
+	________________
+
+
+5. KEY RATING DRIVERS — STRENGTHS [DYNAMIC BLOCKS]
+Each strength is an expandable/collapsible block. Click "+ Add Strength" to append a new one.
+Each Strength Block Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	5.1
+	strength_title
+	Text Input
+	e.g. Strong managerial and financial support from Tata Sons
+	Displayed as bold subheading
+	5.2
+	strength_body
+	Rich Text Editor
+	Bullet points or paragraphs
+	Supports bullet lists, bold, italic. Covers: facts/reasons, criticality, ACER expectations
+	Controls: [+ Add Strength] / [✕ Remove] / [↑↓ Reorder] (drag handles).
+Minimum: 1 strength. No maximum.
+________________
+
+
+6. KEY RATING DRIVERS — WEAKNESSES [DYNAMIC BLOCKS]
+Same structure as Strengths above.
+Each Weakness Block Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	6.1
+	weakness_title
+	Text Input
+	e.g. Modest operating performance and working capital-intensive operations
+	Bold subheading
+	6.2
+	weakness_body
+	Rich Text Editor
+	Bullet points or paragraphs
+	Same editor config as Strengths
+	Controls: [+ Add Weakness] / [✕ Remove] / [↑↓ Reorder].
+________________
+
+
+7. LIQUIDITY SECTION
+#
+	Field Name
+	Field Type
+	Options / Placeholder
+	Notes
+	7.1
+	liquidity_indicator
+	Dropdown
+	Superior, Strong, Adequate, Stretched, Poor
+	Rendered as bold label: "Liquidity: Strong"
+	7.2
+	liquidity_body
+	Rich Text Editor
+	Paragraph(s) describing liquidity
+	Should cover: fund-based limit utilisation, unencumbered cash, capex plans, cash accruals vs. debt repayment obligations
+	________________
+
+
+8. OUTLOOK SECTION
+#
+	Field Name
+	Field Type
+	Options / Placeholder
+	Notes
+	8.1
+	outlook
+	Dropdown
+	Stable, Positive, Negative, Watch Positive, Watch Negative, Rating Withdrawn
+	Rendered as bold label: "Outlook: Stable"
+	8.2
+	outlook_body
+	Text Area
+	1–3 sentences summarising outlook rationale
+	Short paragraph below the outlook label[a]
+	________________
+
+
+9. RATING SENSITIVITIES
+9A. Positive Sensitivity Factors [DYNAMIC LIST]
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	9.1
+	positive_sensitivity_item
+	Text Input (repeatable)
+	e.g. Sustained improvement in operating performance...
+	Each item is one bullet point. Click "+ Add Positive Factor" to add more.
+	Controls: [+ Add Positive Factor] / [✕ Remove].
+9B. Negative Sensitivity Factors [DYNAMIC LIST]
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	9.2
+	negative_sensitivity_item
+	Text Input (repeatable)
+	e.g. Deterioration in the scale of operations...
+	Each item is one bullet point. Click "+ Add Negative Factor" to add more.
+	Controls: [+ Add Negative Factor] / [✕ Remove].
+________________
+
+
+10. ABOUT THE COMPANY
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	10.1
+	about_company_body
+	Rich Text Editor
+	Multi-paragraph
+	Full description: incorporation year, company type, business segments, geographies, promoters & shareholding, any restructuring/management changes in last 3 years
+	10.2
+	company_segments_table
+	Repeatable Row Table
+	—
+	Optional embedded table for strategic business groups. Headers: "Strategic Business Group" | "Description". Click "+ Add Segment".
+	Company Segments Table Rows:
+#
+	Field Name
+	Field Type
+	Placeholder
+	10.2a
+	segment_group
+	Text Input
+	e.g. Energy and Industrial
+	10.2b
+	segment_description
+	Text Input
+	e.g. Energy and Resources, T&D, Advanced Tech
+	________________
+
+
+11. KEY FINANCIAL INDICATORS TABLE [DYNAMIC ROWS]
+Table headers are STATIC. Users can add or remove financial year columns.
+Static Row Labels (hardcoded left column):
+* Operating Revenue (INR crore)
+* EBITDA (INR crore)
+* EBITDA Margin (%)
+* Interest Coverage Ratio (x)
+* Net Adjusted Leverage (x)
+* PAT Margin (%)
+Column Configuration Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	11.1
+	financials_basis
+	Radio
+	Standalone, Consolidated, Both
+	Shown as subtitle
+	11.2
+	fy_columns
+	Repeatable Year + Values
+	e.g. FY2025, FY2024
+	Click "+ Add Year" to insert a new FY column
+[b]	
+Per FY Column (each year added):
+#
+	Field Name
+	Field Type
+	Placeholder
+	11.3
+	fy_label
+	Text Input
+	e.g. FY 2025
+	11.4
+	operating_revenue
+	Number Input
+	INR Crore
+	11.5
+	ebitda
+	Number Input
+	INR Crore
+	11.6
+	ebitda_margin
+	Number Input
+	%
+	11.7
+	interest_coverage
+	Number Input
+	x (times)
+	11.8
+	net_leverage
+	Number Input
+	x (times)
+	11.9
+	pat_margin
+	Number Input
+	%
+	| 11.10 | financials_source | Text Input | e.g. Issuer Name, ACER | Appears as "Source:" footnote below table |
+________________
+
+
+
+
+12. STATUS & OTHER INFORMATION
+
+
+#
+	Field Name
+	Field Type
+	Placeholder
+	Notes
+	12.1
+	non_cooperation_status
+	Rich Text Editor
+	e.g. Not Applicable
+	"Status of non-cooperation with previous CRA"
+	12.2
+	other_information
+	Rich Text Editor
+	e.g. Not Applicable
+	"Any other information"
+	________________
+
+
+13. ANNEXURE 1 — RATING HISTORY [DYNAMIC ROWS]
+Table headers STATIC. Rows added dynamically.
+Static Column Headers:
+Column
+	Label
+	A
+	Instrument
+	B
+	Rating Type
+	C
+	Rated Limits (INR Crore)
+	D
+	Current Ratings
+	E
+	Date of Last Rating Rationale (Year 1)
+	F
+	Rating (Year 1)
+	G
+	Date of Last Rating Rationale (Year 2)
+	H
+	Rating (Year 2)
+	I
+	Date of Last Rating Rationale (Year 3)
+	J
+	Rating (Year 3)
+	Each Row Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	13.1
+	hist_instrument
+	Text Input
+	e.g. Non Convertible Debentures
+	13.2
+	hist_rating_type
+	Dropdown
+	Long-term, Short-term
+	13.3
+	hist_rated_limits
+	Number Input
+	INR Crore
+	13.4
+	hist_current_rating
+	Text Input
+	e.g. ACER AA/Stable
+	13.5
+	hist_date_y1
+	Date Picker
+	—
+[c]	
+13.6
+	hist_rating_y1
+	Text Input
+	—
+[d]	
+13.7
+	hist_date_y2
+	Date Picker
+	—
+[e]	
+13.8
+	hist_rating_y2
+	Text Input
+	—
+[f]	
+13.9
+	hist_date_y3
+	Date Picker
+	—
+[g]	
+13.10
+	hist_rating_y3
+	Text Input
+	—
+[h]	
+Controls: [+ Add Row] / [✕ Remove].
+________________
+
+
+14. ANNEXURE 1.1 — COMPLEXITY LEVEL [DYNAMIC ROWS]
+#
+	Field Name
+	Field Type
+	Placeholder
+	14.1
+	complexity_instrument
+	Text Input
+	e.g. Non Convertible Debentures
+	14.2
+	complexity_level
+	Dropdown
+	Simple, Complex, Highly Complex
+	Controls: [+ Add Row] / [✕ Remove].
+________________
+
+
+15. ANNEXURE 2 — INSTRUMENT / FACILITY DETAILS [DYNAMIC ROWS]
+Static Column Headers: Name of Facility/Security | ISIN | Date of Issuance | Coupon Rate | Maturity Date | Size (INR Crore) | Listing Status | Rating/Outlook
+Each Row Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	15.1
+	ann2_facility_name
+	Text Input
+	e.g. Non Convertible Debentures
+	15.2
+	ann2_isin
+	Text Input
+	e.g. INE725H08196 or NA
+	15.3
+	ann2_date_issuance
+	Date Picker
+	—
+	15.4
+	ann2_coupon_rate
+	Text Input
+	e.g. 8.25% or NA
+	15.5
+	ann2_maturity_date
+	Date Picker
+	—
+	15.6
+	ann2_size
+	Number Input
+	INR Crore
+	15.7
+	ann2_listing_status
+	Dropdown
+	Listed, Unlisted, Proposed to be Listed
+	15.8
+	ann2_rating
+	Text Input
+	e.g. ACER AA/Stable
+	Controls: [+ Add Row] / [✕ Remove].
+________________
+
+
+16. ANNEXURE 3 — FACILITY-WISE LENDER DETAILS [DYNAMIC LENDER + ROWS]
+Grouped by lender. Click "+ Add Lender" to add a lender group; within each lender, click "+ Add Facility" to add facility rows.
+Lender Group Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	16.1
+	lender_name
+	Text Input
+	e.g. HDFC Bank, SBI
+	Facility Row Fields (within each lender):
+#
+	Field Name
+	Field Type
+	Placeholder
+	16.2
+	lender_facility_name
+	Text Input
+	e.g. Fund-based working capital limits
+	16.3
+	lender_amount
+	Number Input
+	INR Crore
+	16.4
+	lender_rating
+	Text Input
+	e.g. ACER AA/Stable
+	Controls: [+ Add Lender] / [+ Add Facility] (within each lender) / [✕ Remove].
+________________
+
+
+17. ANNEXURE 4 — COVENANT DETAILS
+#
+	Field Name
+	Field Type
+	Placeholder
+	17.1
+	covenant_details
+	Rich Text Editor
+	
+
+	________________
+
+
+18. ANNEXURE 5 — FSR LIST
+#
+	Field Name
+	Field Type
+	Placeholder
+	18.1
+	fsr_list
+	Rich Text Editor
+	—
+	________________
+
+
+19. ANNEXURE 6 — ENTITIES CONSOLIDATED [DYNAMIC ROWS]
+Static Column Headers: Name of Entity | Extent of Consolidation | Rationale for Consolidation
+Each Row Fields:
+#
+	Field Name
+	Field Type
+	Placeholder
+	19.1
+	entity_name
+	Text Input
+	e.g. Artson Engineering Ltd
+	19.2
+	consolidation_extent
+	Dropdown
+	Full, Partial (Equity Method), Not Consolidated
+	19.3
+	consolidation_rationale
+	Text Input
+	e.g. 75% ownership and strong business linkages
+	Controls: [+ Add Entity] / [✕ Remove].
+________________
+
+
+20. APPLICABLE RATING CRITERIA [DYNAMIC LINKS]
+#
+	Field Name
+	Field Type
+	Placeholder
+	20.1
+	criteria_name
+	Text Input
+	e.g. Basics of Ratings
+	20.2
+	criteria_url
+	URL Input
+	Link to criteria PDF on ACER website
+	Controls: [+ Add Criteria Link] / [✕ Remove].
+________________
+
+
+21. ANALYTICAL CONTACTS
+Analytical Contacts [DYNAMIC — repeatable persons]
+#
+	Field Name
+	Field Type
+	Placeholder
+	21.5
+	analyst_name
+	Text Input
+	e.g. Manish Kumar Gupta
+	21.6
+	analyst_designation
+	Text Input
+	e.g. Senior Director
+	21.7
+	analyst_direct
+	Text Input
+	Direct number
+	21.8
+	analyst_email
+	Email Input
+	—
+	Controls: [+ Add Analyst] / [✕ Remove].
+________________
+
+
+22. DISCLAIMER [STATIC]
+The entire disclaimer text is hardcoded in the HTML template. It is not editable in the form.
+________________
+
+
+OUTPUT FORMAT
+* Final output: Single-page HTML file styled to match ACER/CRISIL press release format
+* The HTML output should be self-contained (inline CSS)A "Preview" button should render the live HTML output alongside the form
+* A "Download HTML" button exports the final file
+* Optional: "Save Draft" stores the form state as JSON in localStorage
+________________
+
+
+SECTION ORDER IN OUTPUT HTML
+1. Header (Date | City, Company Name, Headline)
+2. Rating Action Table
+3. Analytical Approach
+4. Brief Summary / Detailed Rationale
+5. Key Rating Drivers – Strengths
+6. Key Rating Drivers – Weaknesses
+7. Liquidity
+8. Rating Sensitivities (Positive + Negative)
+9. About the Company
+10. Key Financial Indicators Table
+11. Status of Non-Cooperation / Other Information
+12. Note on Complexity Levels (STATIC)
+13. Annexure 1 – Rating History
+14. Annexure 1.1 – Complexity Levels
+15. Annexure 2 – Instrument Details
+16. Annexure 3 – Lender Details
+17. Annexure 4 – Covenants
+18. Annexure 5 – FSR List
+19. Annexure 6 – Entities Consolidated
+20. Applicable Rating Criteria
+21. Analytical Contacts
+22. Disclaimer (STATIC)
+
+
+[a]Not needed
+[b]need to discuss with Website Team
+[c]need to discuss this with website team
+[d]need to discuss this with website team
+[e]need to discuss this with website team
+[f]need to discuss this with website team
+[g]need to discuss this with website team
+[h]need to discuss this with website team
