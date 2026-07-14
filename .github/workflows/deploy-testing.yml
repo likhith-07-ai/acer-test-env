@@ -48,6 +48,17 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
+      - name: Package application files
+        run: |
+          tar -czf /tmp/acerapp.tar.gz \
+            --exclude='storage/logs/*' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='public/build' \
+            -C .. acerapp
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -69,16 +80,36 @@ jobs:
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
-          HOSTINGER_DEPLOY_PATH: ${{ secrets.HOSTINGER_DEPLOY_PATH }}
+          HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
           HOSTINGER_ENV_FILE: ${{ secrets.HOSTINGER_ENV_FILE }}
         run: |
-          printf '%s\n' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_DEPLOY_PATH/.env' && chmod 600 '$HOSTINGER_DEPLOY_PATH/.env'"
+          printf '%s\n' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_APP_PATH/.env' && chmod 600 '$HOSTINGER_APP_PATH/.env'"
+
+      - name: Upload application files
+        env:
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
+        run: |
+          scp -P "$HOSTINGER_PORT" /tmp/acerapp.tar.gz "$HOSTINGER_USER@$HOSTINGER_HOST:/tmp/acerapp.tar.gz"
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "mkdir -p '$HOSTINGER_APP_PATH' && tar -xzf /tmp/acerapp.tar.gz -C '$HOSTINGER_APP_PATH' --strip-components=1"
+
+      - name: Sync public build output
+        env:
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
+        run: |
+          rsync -az --delete -e "ssh -p $HOSTINGER_PORT" public/build/ "$HOSTINGER_USER@$HOSTINGER_HOST:$HOSTINGER_PUBLIC_PATH/build/"
 
       - name: Verify SSH access
         env:
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
-          HOSTINGER_DEPLOY_PATH: ${{ secrets.HOSTINGER_DEPLOY_PATH }}
+          HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
+          HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
         run: |
-          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_DEPLOY_PATH' && pwd && ls -la .env"
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_APP_PATH' && pwd && ls -la .env && echo '---' && cd '$HOSTINGER_PUBLIC_PATH' && pwd && ls -la build"
