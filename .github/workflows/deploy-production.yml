@@ -56,12 +56,25 @@ jobs:
             --exclude='public/build' \
             -C .. acerapp
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: acerapp-build
+          path: /tmp/acerapp.tar.gz
+          retention-days: 1
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment: production
 
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: acerapp-build
+          path: /tmp
+
       - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -80,7 +93,9 @@ jobs:
           HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
           HOSTINGER_ENV_FILE: ${{ secrets.HOSTINGER_ENV_FILE }}
         run: |
-          printf '%s\n' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_APP_PATH/.env' && chmod 600 '$HOSTINGER_APP_PATH/.env'"
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "mkdir -p '$HOSTINGER_APP_PATH'" && \
+          printf '%s' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_APP_PATH/.env'" && \
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "chmod 600 '$HOSTINGER_APP_PATH/.env'"
 
       - name: Upload application files
         env:
