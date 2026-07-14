@@ -135,11 +135,8 @@ jobs:
           
           cp -a "$HOSTINGER_APP_PATH/public/." "$HOSTINGER_PUBLIC_PATH/"
           
-          echo "===== PUBLIC_HTML ====="
-          ls -la "$HOSTINGER_PUBLIC_PATH"
-          
-          echo "===== PUBLIC_HTML/BUILD ====="
-          ls -la "$HOSTINGER_PUBLIC_PATH/build" || true
+          echo "===== PUBLIC_HTML TREE ====="
+          find "$HOSTINGER_PUBLIC_PATH" -maxdepth 2
            
           "
 
