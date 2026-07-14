@@ -118,11 +118,4 @@ jobs:
           HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
         run: |
           ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_APP_PATH' && pwd && ls -la .env && echo '---' && cd '$HOSTINGER_PUBLIC_PATH' && pwd && ls -la build"
-        env:
-          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
-          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
-          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
-          HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
-          HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
-        run: |
-          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_APP_PATH' && pwd && ls -la .env && echo '---' && cd '$HOSTINGER_PUBLIC_PATH' && pwd && ls -la build"
+
