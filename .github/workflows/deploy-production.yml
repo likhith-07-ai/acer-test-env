@@ -114,7 +114,7 @@ jobs:
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
           HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
         run: |
-          rsync -az --delete -e "ssh -p $HOSTINGER_PORT" public/build/ "$HOSTINGER_USER@$HOSTINGER_HOST:$HOSTINGER_PUBLIC_PATH/build/"
+          rsync -az --delete -e "ssh -p $HOSTINGER_PORT" acerapp/public/build/ "$HOSTINGER_USER@$HOSTINGER_HOST:$HOSTINGER_PUBLIC_PATH/build/"
 
       - name: Verify SSH access
         env:
