@@ -61,6 +61,16 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p '${{ secrets.HOSTINGER_PORT }}' '${{ secrets.HOSTINGER_HOST }}' >> ~/.ssh/known_hosts
 
+      - name: Upload environment file
+        env:
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_DEPLOY_PATH: ${{ secrets.HOSTINGER_DEPLOY_PATH }}
+          HOSTINGER_ENV_FILE: ${{ secrets.HOSTINGER_ENV_FILE }}
+        run: |
+          printf '%s\n' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_DEPLOY_PATH/.env' && chmod 600 '$HOSTINGER_DEPLOY_PATH/.env'"
+
       - name: Verify SSH access
         env:
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
@@ -68,4 +78,4 @@ jobs:
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
           HOSTINGER_DEPLOY_PATH: ${{ secrets.HOSTINGER_DEPLOY_PATH }}
         run: |
-          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_DEPLOY_PATH' && pwd && ls -la"
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_DEPLOY_PATH' && pwd && ls -la .env"
