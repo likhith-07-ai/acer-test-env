@@ -124,9 +124,23 @@ jobs:
             mkdir -p '$HOSTINGER_APP_PATH'
             tar -xzf /tmp/acerapp.tar.gz -C '$HOSTINGER_APP_PATH' --strip-components=1
       
-            rm -rf '$HOSTINGER_PUBLIC_PATH'/*
-            shopt -s dotglob
-            cp -a '$HOSTINGER_APP_PATH/public/build/'* '$HOSTINGER_PUBLIC_PATH/'
+
+          echo "===== APP PUBLIC ====="
+          ls -la "$HOSTINGER_APP_PATH/public"
+          
+          echo "===== APP PUBLIC/BUILD ====="
+          ls -la "$HOSTINGER_APP_PATH/public/build"
+          
+          rm -rf "$HOSTINGER_PUBLIC_PATH"/*
+          
+          cp -a "$HOSTINGER_APP_PATH/public/." "$HOSTINGER_PUBLIC_PATH/"
+          
+          echo "===== PUBLIC_HTML ====="
+          ls -la "$HOSTINGER_PUBLIC_PATH"
+          
+          echo "===== PUBLIC_HTML/BUILD ====="
+          ls -la "$HOSTINGER_PUBLIC_PATH/build" || true
+           
           "
 
       
