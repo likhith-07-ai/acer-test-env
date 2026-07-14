@@ -133,7 +133,8 @@ jobs:
           
           rm -rf "$HOSTINGER_PUBLIC_PATH"/*
           
-          cp -a "$HOSTINGER_APP_PATH/public/." "$HOSTINGER_PUBLIC_PATH/"
+          cp -rv "$HOSTINGER_APP_PATH/public/"* "$HOSTINGER_PUBLIC_PATH/"
+          cp -v "$HOSTINGER_APP_PATH/public/.htaccess" "$HOSTINGER_PUBLIC_PATH/"
           
           echo "===== PUBLIC_HTML TREE ====="
           find "$HOSTINGER_PUBLIC_PATH" -maxdepth 2
