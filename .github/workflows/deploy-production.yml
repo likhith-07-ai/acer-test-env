@@ -1,6 +1,7 @@
 name: Deploy Production to Hostinger
 
 on:
+
   workflow_dispatch:
 
 permissions:
@@ -79,11 +80,20 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-      - name: Add Hostinger host key
+      - name: Test SSH
+        env:
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+        
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p '${{ secrets.HOSTINGER_PORT }}' '${{ secrets.HOSTINGER_HOST }}' >> ~/.ssh/known_hosts
+          ssh -v \
+            -o StrictHostKeyChecking=no \
+            -p "$HOSTINGER_PORT" \
+            "$HOSTINGER_USER@$HOSTINGER_HOST" \
+            "echo Connected"
 
+      
       - name: Upload environment file
         env:
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
@@ -96,25 +106,46 @@ jobs:
           printf '%s' "$HOSTINGER_ENV_FILE" | ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cat > '$HOSTINGER_APP_PATH/.env'" && \
           ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "chmod 600 '$HOSTINGER_APP_PATH/.env'"
 
+
       - name: Upload application files
         env:
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
           HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
           HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
+          HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}  
+          
         run: |
           scp -P "$HOSTINGER_PORT" /tmp/acerapp.tar.gz "$HOSTINGER_USER@$HOSTINGER_HOST:/tmp/acerapp.tar.gz"
-          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "mkdir -p '$HOSTINGER_APP_PATH' && tar -xzf /tmp/acerapp.tar.gz -C '$HOSTINGER_APP_PATH' --strip-components=1"
+      
+          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "
+            mkdir -p '$HOSTINGER_APP_PATH'
+            tar -xzf /tmp/acerapp.tar.gz -C '$HOSTINGER_APP_PATH' --strip-components=1
+      
 
+          echo "===== APP PUBLIC ====="
+          ls -la "$HOSTINGER_APP_PATH/public"
+          
+          echo "===== APP PUBLIC/BUILD ====="
+          ls -la "$HOSTINGER_APP_PATH/public/build"
+          
+          rm -rf "$HOSTINGER_PUBLIC_PATH"/*
+          
+          cp -rv "$HOSTINGER_APP_PATH/public/"* "$HOSTINGER_PUBLIC_PATH/"
+          cp -v "$HOSTINGER_APP_PATH/public/.htaccess" "$HOSTINGER_PUBLIC_PATH/"
+
+          # Fix Laravel paths for Hostinger
+          
+          cp -v "$HOSTINGER_APP_PATH/public/index.hostinger.php" "$HOSTINGER_PUBLIC_PATH/index.php"
+
+          
+          echo "===== PUBLIC_HTML TREE ====="
+          find "$HOSTINGER_PUBLIC_PATH" -maxdepth 2
+           
+          "
+
+      
       - name: Verify SSH access
-        env:
-          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
-          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
-          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
-          HOSTINGER_APP_PATH: ${{ secrets.HOSTINGER_APP_PATH }}
-          HOSTINGER_PUBLIC_PATH: ${{ secrets.HOSTINGER_PUBLIC_PATH }}
-        run: |
-          ssh -p "$HOSTINGER_PORT" "$HOSTINGER_USER@$HOSTINGER_HOST" "cd '$HOSTINGER_APP_PATH' && pwd && ls -la .env && echo '---' && cd '$HOSTINGER_PUBLIC_PATH' && pwd && ls -la build"
         env:
           HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
           HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
