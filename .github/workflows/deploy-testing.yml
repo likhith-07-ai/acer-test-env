@@ -135,6 +135,11 @@ jobs:
           
           cp -rv "$HOSTINGER_APP_PATH/public/"* "$HOSTINGER_PUBLIC_PATH/"
           cp -v "$HOSTINGER_APP_PATH/public/.htaccess" "$HOSTINGER_PUBLIC_PATH/"
+
+          # Fix Laravel paths for Hostinger
+          
+          cp -v "$HOSTINGER_APP_PATH/public/index.hostinger.php" "$HOSTINGER_PUBLIC_PATH/index.php"
+
           
           echo "===== PUBLIC_HTML TREE ====="
           find "$HOSTINGER_PUBLIC_PATH" -maxdepth 2
