@@ -11,7 +11,7 @@ if (file_exists($maintenance = __DIR__.'/../acerapp/storage/framework/maintenanc
 }
 
 // Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../acerapp/vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */
