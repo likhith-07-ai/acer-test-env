@@ -137,10 +137,10 @@ jobs:
           cp -v "$HOSTINGER_APP_PATH/public/.htaccess" "$HOSTINGER_PUBLIC_PATH/"
 
           # Fix Laravel paths for Hostinger
-          sed -i "s|require __DIR__.'/../vendor/autoload.php';|require __DIR__.'/../acerapp/vendor/autoload.php';|" "$HOSTINGER_PUBLIC_PATH/index.php"
+          perl -pi -e "s#\.\./vendor/autoload\.php#../acerapp/vendor/autoload.php#g" "$HOSTINGER_PUBLIC_PATH/index.php"
           
-          sed -i "s|\$app = require_once __DIR__.'/../bootstrap/app.php';|\$app = require_once __DIR__.'/../acerapp/bootstrap/app.php';|" "$HOSTINGER_PUBLIC_PATH/index.php"
-                    
+          perl -pi -e "s#\.\./bootstrap/app\.php#../acerapp/bootstrap/app.php#g" "$HOSTINGER_PUBLIC_PATH/index.php"               
+  
           echo "===== PUBLIC_HTML TREE ====="
           find "$HOSTINGER_PUBLIC_PATH" -maxdepth 2
            
